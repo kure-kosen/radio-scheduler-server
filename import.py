@@ -30,7 +30,7 @@ class Data(peewee.Model):
 Data.create_table()
 
 # tsvファイルを一行ずつ読み込んでタブで分割し，それぞれをデータベースに登録
-for line in open("Untitled.csv", "r"):
+for line in open("datas.tsv", "r"):
     (title, published_at, rec, edit, censorship, thumbnail, reserve, release, comic, tweet, folder_id, rec_url, thumbnail_url, comic_url) = tuple(line[:-1].split("\t"))
     Data.create(title         = title,
                 published_at  = published_at,
