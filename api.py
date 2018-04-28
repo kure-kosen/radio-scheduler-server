@@ -29,7 +29,7 @@ class Data(peewee.Model):
 
 api = Flask(__name__)
 
-@api.route('/api/v1/data/', methods=['GET', 'POST'])
+@api.route('/api/v1/data/', methods=['GET', 'POST', 'DELETE'])
 def get_datas():
     try:
       db.connect()
@@ -61,6 +61,14 @@ def get_datas():
             datas.append(dict(x))
 
         return convert_for_response(datas)
+
+    elif request.method == 'DELETE':
+        # del_data = Data.get(Data.id == 22)
+        del_data = Data.get(Data.id == request.form['id'])
+        del_data.delete_instance()
+
+        db.commit()
+
 
     db.close()
 
