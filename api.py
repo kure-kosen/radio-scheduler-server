@@ -29,7 +29,7 @@ class Data(peewee.Model):
 
 api = Flask(__name__)
 
-@api.route('/api/v1/radios/', methods=['GET', 'POST'])
+@api.route('/api/v1/publishing_task/', methods=['GET', 'POST'])
 def get_radios():
     try:
       db.connect()
@@ -67,7 +67,7 @@ def get_radios():
     db.close()
 
 
-@api.route('/api/v1/radios/<string:id>', methods=['GET', 'POST', 'DELETE'])
+@api.route('/api/v1/publishing_task/<string:id>', methods=['GET', 'POST', 'DELETE'])
 def crud_radio(id):
     try:
         db.connect()
