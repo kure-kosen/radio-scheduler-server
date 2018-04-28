@@ -29,8 +29,8 @@ class Data(peewee.Model):
 
 api = Flask(__name__)
 
-@api.route('/api/v1/data/', methods=['GET', 'POST'])
-def get_datas():
+@api.route('/api/v1/radios/', methods=['GET', 'POST'])
+def get_radios():
     try:
       db.connect()
     except Data.DoesNotExist:
@@ -67,8 +67,8 @@ def get_datas():
     db.close()
 
 
-@api.route('/api/v1/data/<string:id>', methods=['GET', 'POST', 'DELETE'])
-def get_data(id):
+@api.route('/api/v1/radios/<string:id>', methods=['GET', 'POST', 'DELETE'])
+def crud_radio(id):
     try:
         db.connect()
         radio = Data.get(Data.id == id)
