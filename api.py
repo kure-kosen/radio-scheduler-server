@@ -73,7 +73,7 @@ def get_datas():
     db.close()
 
 
-@api.route('/api/v1/data/<string:id>', methods=['GET'])
+@api.route('/api/v1/data/<string:id>', methods=['GET', 'POST'])
 def get_data(id):
     try:
         db.connect()
@@ -81,14 +81,33 @@ def get_data(id):
     except Data.DoesNotExist:
         abort(404)
 
-    cursor = db.execute_sql('select * from data where id =' + id)
+    if request.method == 'GET':
+        cursor = db.execute_sql('select * from data where id =' + id)
 
-    datas = []
-    for row in cursor.fetchall():
-        x = dict(zip([d[0] for d in cursor.description], row))
-        datas.append(dict(x))
+        datas = []
+        for row in cursor.fetchall():
+            x = dict(zip([d[0] for d in cursor.description], row))
+            datas.append(dict(x))
 
-    return convert_for_response(datas)
+        return convert_for_response(datas)
+
+    elif request.method == 'POST':
+        radio.title         = request.form['title']
+        radio.published_at  = request.form['published_at']
+        radio.rec           = request.form['rec']
+        radio.edit          = request.form['edit']
+        radio.censorship    = request.form['censorship']
+        radio.thumbnail     = request.form['thumbnail']
+        radio.reserve       = request.form['reserve']
+        radio.release       = request.form['release']
+        radio.comic         = request.form['comic']
+        radio.tweet         = request.form['tweet']
+        radio.folder_id     = request.form['folder_id']
+        radio.rec_url       = request.form['rec_url']
+        radio.thumbnail_url = request.form['thumbnail_url']
+        radio.comic_url     = request.form['comic_url']
+
+        radio.save()
 
     db.close()
 
