@@ -52,6 +52,8 @@ def get_datas():
                     thumbnail_url = request.form['thumbnail_url'],
                     comic_url     = request.form['comic_url'])
 
+        return make_response(jsonify({'result': 'Uploaded'}), 200)
+
     elif request.method == 'GET':
         cursor = db.execute_sql('select * from data;')
 
@@ -108,6 +110,8 @@ def get_data(id):
         radio.comic_url     = request.form['comic_url']
 
         radio.save()
+
+        return make_response(jsonify({'result': 'Updated'}), 200)
 
     db.close()
 
