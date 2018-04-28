@@ -33,3 +33,10 @@ python3 api.py
 - import.pyの33行目 `for line in open("Untitled.csv", "r"):`
 - api.pyの6行目 `db = peewee.SqliteDatabase("./db/datas.db")`
 - `Class Data(peewee.Model)`
+
+## Check
+```bash
+% open http://localhost:3000
+% open http://localhost:3000/api/v1/data/
+% open http://localhost:3000/api/v1/data/1
+```
