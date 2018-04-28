@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, jsonify, abort, make_response
+from flask import Flask, jsonify, abort, make_response, request, redirect
 import peewee
 import json
 
@@ -29,21 +29,38 @@ class Data(peewee.Model):
 
 api = Flask(__name__)
 
-@api.route('/api/v1/data/', methods=['GET'])
+@api.route('/api/v1/data/', methods=['GET', 'POST'])
 def get_datas():
     try:
       db.connect()
     except Data.DoesNotExist:
         abort(404)
 
-    cursor = db.execute_sql('select * from data;')
+    if request.method == 'POST':
+        Data.create(title         = request.form['title'],
+                    published_at  = request.form['published_at'],
+                    rec           = request.form['rec'],
+                    edit          = request.form['edit'],
+                    censorship    = request.form['censorship'],
+                    thumbnail     = request.form['thumbnail'],
+                    reserve       = request.form['reserve'],
+                    release       = request.form['release'],
+                    comic         = request.form['comic'],
+                    tweet         = request.form['tweet'],
+                    folder_id     = request.form['folder_id'],
+                    rec_url       = request.form['rec_url'],
+                    thumbnail_url = request.form['thumbnail_url'],
+                    comic_url     = request.form['comic_url'])
 
-    datas = []
-    for row in cursor.fetchall():
-        x = dict(zip([d[0] for d in cursor.description], row))
-        datas.append(dict(x))
+    elif request.method == 'GET':
+        cursor = db.execute_sql('select * from data;')
 
-    return convert_for_response(datas)
+        datas = []
+        for row in cursor.fetchall():
+            x = dict(zip([d[0] for d in cursor.description], row))
+            datas.append(dict(x))
+
+        return convert_for_response(datas)
 
     db.close()
 
@@ -66,7 +83,6 @@ def get_data(id):
     return convert_for_response(datas)
 
     db.close()
-
 
 @api.errorhandler(404)
 def not_found(error):
