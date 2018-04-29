@@ -21,7 +21,7 @@ def get_publishing_tasks():
     except Task.DoesNotExist:
         abort(404)
 
-    cursor = db.execute_sql('select * from task;')
+    cursor = db.execute_sql('select * from task order by id desc;')
 
     datas = []
     for row in cursor.fetchall():
