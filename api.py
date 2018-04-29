@@ -3,31 +3,14 @@ from flask import Flask, jsonify, abort, make_response, request, redirect
 import peewee
 import json
 
-db = peewee.SqliteDatabase("./db/datas.db")
+from datamodel import *
+
 
 def convert_for_response(data):
     return make_response(json.dumps(data, ensure_ascii=False))
 
-class Data(peewee.Model):
-    title         = peewee.TextField()
-    published_at  = peewee.DateField()
-    rec           = peewee.BooleanField()
-    edit          = peewee.BooleanField()
-    censorship    = peewee.BooleanField()
-    thumbnail     = peewee.BooleanField()
-    reserve       = peewee.BooleanField()
-    release       = peewee.BooleanField()
-    comic         = peewee.BooleanField()
-    tweet         = peewee.BooleanField()
-    folder_id     = peewee.TextField()
-    rec_url       = peewee.TextField()
-    thumbnail_url = peewee.TextField()
-    comic_url     = peewee.TextField()
-
-    class Meta:
-        database = db
-
 api = Flask(__name__)
+
 
 @api.route('/api/v1/publishing_task/', methods=['GET'])
 def get_publishing_tasks():
@@ -83,9 +66,6 @@ def get_publishing_task(id):
 
     cursor = db.execute_sql('select * from data where id =' + id)
 
-    print(publishing_task)
-    print(cursor)
-
     datas = []
     for row in cursor.fetchall():
         x = dict(zip([d[0] for d in cursor.description], row))
@@ -122,6 +102,7 @@ def update_publishing_task(id):
 
     return make_response(jsonify({'result': 'Updated'}), 200)
     db.close()
+
 
 @api.route('/api/v1/publishing_task/<string:id>/', methods=['DELETE'])
 def delete_publishing_task(id):
