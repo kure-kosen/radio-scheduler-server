@@ -37,20 +37,20 @@ def create_publishing_task():
     except Data.DoesNotExist:
         abort(404)
 
-    Data.create(title         = request.form['title'],
-                published_at  = request.form['published_at'],
-                rec           = request.form['rec'],
-                edit          = request.form['edit'],
-                censorship    = request.form['censorship'],
-                thumbnail     = request.form['thumbnail'],
-                reserve       = request.form['reserve'],
-                release       = request.form['release'],
-                comic         = request.form['comic'],
-                tweet         = request.form['tweet'],
-                folder_id     = request.form['folder_id'],
-                rec_url       = request.form['rec_url'],
-                thumbnail_url = request.form['thumbnail_url'],
-                comic_url     = request.form['comic_url'])
+    Data.create(title          = request.form['title'],
+                published_at   = request.form['published_at'],
+                recorded       = request.form['recorded'],
+                edited         = request.form['edited'],
+                reviewed       = request.form['reviewed'],
+                drew_thumbnail = request.form['drew_thumbnail'],
+                reserved       = request.form['reserved'],
+                released       = request.form['released'],
+                drew_comic     = request.form['drew_comic'],
+                tweeted        = request.form['tweeted'],
+                folder_id      = request.form['folder_id'],
+                record_url     = request.form['record_url'],
+                thumbnail_url  = request.form['thumbnail_url'],
+                comic_url      = request.form['comic_url'])
 
     return make_response(jsonify({'result': 'Uploaded'}), 200)
     db.close()
@@ -83,20 +83,20 @@ def update_publishing_task(id):
     except Data.DoesNotExist:
         abort(404)
 
-    publishing_task.title         = request.form['title']
-    publishing_task.published_at  = request.form['published_at']
-    publishing_task.rec           = request.form['rec']
-    publishing_task.edit          = request.form['edit']
-    publishing_task.censorship    = request.form['censorship']
-    publishing_task.thumbnail     = request.form['thumbnail']
-    publishing_task.reserve       = request.form['reserve']
-    publishing_task.release       = request.form['release']
-    publishing_task.comic         = request.form['comic']
-    publishing_task.tweet         = request.form['tweet']
-    publishing_task.folder_id     = request.form['folder_id']
-    publishing_task.rec_url       = request.form['rec_url']
-    publishing_task.thumbnail_url = request.form['thumbnail_url']
-    publishing_task.comic_url     = request.form['comic_url']
+    publishing_task.title          = request.form['title']
+    publishing_task.published_at   = request.form['published_at']
+    publishing_task.recorded       = request.form['recorded']
+    publishing_task.edited         = request.form['edited']
+    publishing_task.reviewed       = request.form['reviewed']
+    publishing_task.drew_thumbnail = request.form['drew_thumbnail']
+    publishing_task.reserved       = request.form['reserved']
+    publishing_task.released       = request.form['released']
+    publishing_task.drew_comic     = request.form['drew_comic']
+    publishing_task.tweeted        = request.form['tweeted']
+    publishing_task.folder_id      = request.form['folder_id']
+    publishing_task.record_url     = request.form['record_url']
+    publishing_task.thumbnail_url  = request.form['thumbnail_url']
+    publishing_task.comic_url      = request.form['comic_url']
 
     publishing_task.save()
 
