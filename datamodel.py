@@ -2,10 +2,10 @@
 import peewee
 
 
-db = peewee.SqliteDatabase("./db/datas.db")
+db = peewee.SqliteDatabase("./db/tasks.db")
 
 
-class Data(peewee.Model):
+class Task(peewee.Model):
     title          = peewee.TextField()
     published_at   = peewee.DateField()
     recorded       = peewee.BooleanField()

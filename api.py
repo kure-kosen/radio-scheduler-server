@@ -16,10 +16,10 @@ api = Flask(__name__)
 def get_publishing_tasks():
     try:
       db.connect()
-    except Data.DoesNotExist:
+    except Task.DoesNotExist:
         abort(404)
 
-    cursor = db.execute_sql('select * from data;')
+    cursor = db.execute_sql('select * from task;')
 
     datas = []
     for row in cursor.fetchall():
@@ -34,10 +34,10 @@ def get_publishing_tasks():
 def create_publishing_task():
     try:
       db.connect()
-    except Data.DoesNotExist:
+    except Task.DoesNotExist:
         abort(404)
 
-    Data.create(title          = request.form['title'],
+    Task.create(title          = request.form['title'],
                 published_at   = request.form['published_at'],
                 recorded       = request.form['recorded'],
                 edited         = request.form['edited'],
@@ -60,11 +60,11 @@ def create_publishing_task():
 def get_publishing_task(id):
     try:
         db.connect()
-        publishing_task = Data.get(Data.id == id)
-    except Data.DoesNotExist:
+        publishing_task = Task.get(Task.id == id)
+    except Task.DoesNotExist:
         abort(404)
 
-    cursor = db.execute_sql('select * from data where id =' + id)
+    cursor = db.execute_sql('select * from task where id =' + id)
 
     datas = []
     for row in cursor.fetchall():
@@ -79,9 +79,12 @@ def get_publishing_task(id):
 def update_publishing_task(id):
     try:
         db.connect()
-        publishing_task = Data.get(Data.id == id)
-    except Data.DoesNotExist:
+        publishing_task = Task.get(Task.id == id)
+    except Task.DoesNotExist:
         abort(404)
+
+    print(request.form)
+    print(request.form['edited'])
 
     publishing_task.title          = request.form['title']
     publishing_task.published_at   = request.form['published_at']
@@ -108,8 +111,8 @@ def update_publishing_task(id):
 def delete_publishing_task(id):
     try:
         db.connect()
-        delete_publishing_task = Data.get(Data.id == id)
-    except Data.DoesNotExist:
+        delete_publishing_task = Task.get(Task.id == id)
+    except Task.DoesNotExist:
         abort(404)
 
     delete_publishing_task.delete_instance()
