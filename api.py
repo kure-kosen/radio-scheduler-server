@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, jsonify, abort, make_response, request, redirect
+from flask_cors import CORS
 import peewee
 import json
 
@@ -10,6 +11,7 @@ def convert_for_response(data):
     return make_response(json.dumps(data, ensure_ascii=False))
 
 api = Flask(__name__)
+CORS(api)
 
 
 @api.route('/api/v1/publishing_task/', methods=['GET'])
