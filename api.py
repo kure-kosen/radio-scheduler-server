@@ -85,19 +85,16 @@ def update_publishing_task(id):
     except Task.DoesNotExist:
         abort(404)
 
-    print(request.form)
-    print(request.form['edited'])
-
     publishing_task.title          = request.form['title']
     publishing_task.published_at   = request.form['published_at']
-    publishing_task.recorded       = request.form['recorded']
-    publishing_task.edited         = request.form['edited']
-    publishing_task.reviewed       = request.form['reviewed']
-    publishing_task.drew_thumbnail = request.form['drew_thumbnail']
-    publishing_task.reserved       = request.form['reserved']
-    publishing_task.released       = request.form['released']
-    publishing_task.drew_comic     = request.form['drew_comic']
-    publishing_task.tweeted        = request.form['tweeted']
+    publishing_task.recorded       = int(request.form['recorded'])
+    publishing_task.edited         = int(request.form['edited'])
+    publishing_task.reviewed       = int(request.form['reviewed'])
+    publishing_task.drew_thumbnail = int(request.form['drew_thumbnail'])
+    publishing_task.reserved       = int(request.form['reserved'])
+    publishing_task.released       = int(request.form['released'])
+    publishing_task.drew_comic     = int(request.form['drew_comic'])
+    publishing_task.tweeted        = int(request.form['tweeted'])
     publishing_task.folder_id      = request.form['folder_id']
     publishing_task.record_url     = request.form['record_url']
     publishing_task.thumbnail_url  = request.form['thumbnail_url']
