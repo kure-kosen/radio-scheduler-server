@@ -7,20 +7,30 @@ import json
 from datamodel import *
 
 
-def convert_for_response(data):
-    return make_response(json.dumps(data, ensure_ascii=False))
-
 api = Flask(__name__)
 CORS(api)
 
 
+def convert_for_response(data):
+    return make_response(json.dumps(data, ensure_ascii=False))
+
+
+@api.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
+@api.before_request
+def before_request_handler():
+    db.connect()
+
+@api.teardown_request
+def after_request_handler(exc):
+    if not db.is_closed():
+        db.close()
+
+
 @api.route('/api/v1/publishing_task/', methods=['GET'])
 def get_publishing_tasks():
-    try:
-      db.connect()
-    except Task.DoesNotExist:
-        abort(404)
-
     cursor = db.execute_sql('select * from task order by id desc;')
 
     datas = []
@@ -29,16 +39,10 @@ def get_publishing_tasks():
         datas.append(dict(x))
 
     return convert_for_response(datas)
-    db.close()
 
 
 @api.route('/api/v1/publishing_task/', methods=['POST'])
 def create_publishing_task():
-    try:
-      db.connect()
-    except Task.DoesNotExist:
-        abort(404)
-
     Task.create(title          = request.form['title'],
                 published_at   = request.form['published_at'],
                 recorded       = int(request.form['recorded']),
@@ -55,16 +59,11 @@ def create_publishing_task():
                 comic_url      = request.form['comic_url'])
 
     return make_response(jsonify({'result': 'Uploaded'}), 200)
-    db.close()
 
 
 @api.route('/api/v1/publishing_task/<string:id>/', methods=['GET'])
 def get_publishing_task(id):
-    try:
-        db.connect()
-        publishing_task = Task.get(Task.id == id)
-    except Task.DoesNotExist:
-        abort(404)
+    publishing_task = Task.get(Task.id == id)
 
     cursor = db.execute_sql('select * from task where id =' + id)
 
@@ -74,16 +73,11 @@ def get_publishing_task(id):
         datas.append(dict(x))
 
     return convert_for_response(datas)
-    db.close()
 
 
 @api.route('/api/v1/publishing_task/<string:id>/', methods=['PATCH'])
 def update_publishing_task(id):
-    try:
-        db.connect()
-        publishing_task = Task.get(Task.id == id)
-    except Task.DoesNotExist:
-        abort(404)
+    publishing_task = Task.get(Task.id == id)
 
     publishing_task.title          = request.form['title']
     publishing_task.published_at   = request.form['published_at']
@@ -103,26 +97,15 @@ def update_publishing_task(id):
     publishing_task.save()
 
     return make_response(jsonify({'result': 'Updated'}), 200)
-    db.close()
 
 
 @api.route('/api/v1/publishing_task/<string:id>/', methods=['DELETE'])
 def delete_publishing_task(id):
-    try:
-        db.connect()
-        delete_publishing_task = Task.get(Task.id == id)
-    except Task.DoesNotExist:
-        abort(404)
+    delete_publishing_task = Task.get(Task.id == id)
 
     delete_publishing_task.delete_instance()
 
     return make_response(jsonify({'result': 'Deleted'}), 200)
-    db.close()
-
-
-@api.errorhandler(404)
-def not_found(error):
-    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 if __name__ == '__main__':
