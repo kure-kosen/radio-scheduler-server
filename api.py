@@ -116,8 +116,6 @@ def delete_publishing_task(id):
 
     delete_publishing_task.delete_instance()
 
-    db.commit()
-
     return make_response(jsonify({'result': 'Deleted'}), 200)
     db.close()
 
