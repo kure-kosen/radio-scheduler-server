@@ -31,14 +31,14 @@ def after_request_handler(exc):
 
 @api.route('/api/v1/publishing_task/', methods=['GET'])
 def get_publishing_tasks():
-    cursor = db.execute_sql('select * from task order by id desc;')
-
     datas = []
-    for row in cursor.fetchall():
-        x = dict(zip([d[0] for d in cursor.description], row))
-        datas.append(dict(x))
 
-    return convert_for_response(datas)
+    query = Task.select().dicts().order_by(Task.id.desc())
+
+    for task in query:
+      datas.append(task)
+
+    return make_response(jsonify(datas))
 
 
 @api.route('/api/v1/publishing_task/', methods=['POST'])
@@ -63,16 +63,14 @@ def create_publishing_task():
 
 @api.route('/api/v1/publishing_task/<string:id>/', methods=['GET'])
 def get_publishing_task(id):
-    publishing_task = Task.get(Task.id == id)
-
-    cursor = db.execute_sql('select * from task where id =' + id)
-
     datas = []
-    for row in cursor.fetchall():
-        x = dict(zip([d[0] for d in cursor.description], row))
-        datas.append(dict(x))
 
-    return convert_for_response(datas)
+    query = Task.select().where(Task.id == id).dicts()
+
+    for task in query:
+        datas.append(task)
+
+    return make_response(jsonify(datas))
 
 
 @api.route('/api/v1/publishing_task/<string:id>/', methods=['PATCH'])
