@@ -13,6 +13,7 @@ pip 10.0.1
 % pip3 freeze
 pip3 install Flask==1.0
 pip3 install peewee==3.3.1
+pip3 install flask-cors==3.0.4
 ```
 
 # Usage
