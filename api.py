@@ -11,10 +11,6 @@ api = Flask(__name__)
 CORS(api)
 
 
-def convert_for_response(data):
-    return make_response(json.dumps(data, ensure_ascii=False))
-
-
 @api.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
