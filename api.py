@@ -4,6 +4,8 @@ from flask_cors import CORS
 import peewee
 import json
 
+from dateutil import parser
+
 from datamodel import *
 
 
@@ -40,7 +42,7 @@ def get_publishing_tasks():
 @api.route('/api/v1/publishing_task/', methods=['POST'])
 def create_publishing_task():
     Task.create(title          = request.form['title'],
-                published_at   = request.form['published_at'],
+                published_at   = parser.parse(request.form['published_at']).date(),
                 recorded       = int(request.form['recorded']),
                 edited         = int(request.form['edited']),
                 reviewed       = int(request.form['reviewed']),
@@ -74,7 +76,7 @@ def update_publishing_task(id):
     publishing_task = Task.get(Task.id == id)
 
     publishing_task.title          = request.form['title']
-    publishing_task.published_at   = request.form['published_at']
+    publishing_task.published_at   = parser.parse(request.form['published_at']).date()
     publishing_task.recorded       = int(request.form['recorded'])
     publishing_task.edited         = int(request.form['edited'])
     publishing_task.reviewed       = int(request.form['reviewed'])
