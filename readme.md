@@ -11,9 +11,10 @@ Python 3.6.5
 pip 10.0.1
 
 % pip3 freeze
-pip3 install Flask==1.0
-pip3 install peewee==3.3.1
-pip3 install flask-cors==3.0.4
+Flask==1.0
+peewee==3.3.1
+flask-cors==3.0.4
+python-dateutil==2.7.2
 ```
 
 # Usage
@@ -22,9 +23,13 @@ pip3 install flask-cors==3.0.4
 
 ## Setup
 ```bash
+pip3 install Flask==1.0
+pip3 install flask-cors==3.0.4
+pip3 install peewee==3.3.1
+pip3 install python-dateutil==2.7.2
+
 git clone git@github.com:kobakazu0429/radio-scheduler-server.git
 cd radio-scheduler-server
-python3 import.py
 python3 api.py
 ```
 
@@ -38,6 +43,6 @@ python3 api.py
 ## Check
 ```bash
 % open http://localhost:3000
-% open http://localhost:3000/api/v1/data/
+% open http://localhost:3000/api/v1/publishing_task/
 % open http://localhost:3000/api/v1/data/1
 ```
