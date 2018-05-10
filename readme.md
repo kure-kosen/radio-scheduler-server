@@ -10,6 +10,8 @@ Python 3.6.5
 % pip3 -V
 pip 10.0.1
 
+% pip3 install -r requirements.txt
+
 % pip3 freeze
 Flask==1.0
 peewee==3.3.1
