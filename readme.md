@@ -10,8 +10,6 @@ Python 3.6.5
 % pip3 -V
 pip 10.0.1
 
-% pip3 install -r requirements.txt
-
 % pip3 freeze
 Flask==1.0
 peewee==3.3.1
@@ -25,10 +23,7 @@ python-dateutil==2.7.2
 
 ## Setup
 ```bash
-pip3 install Flask==1.0
-pip3 install flask-cors==3.0.4
-pip3 install peewee==3.3.1
-pip3 install python-dateutil==2.7.2
+pip3 install -r requirements.txt
 
 git clone git@github.com:kobakazu0429/radio-scheduler-server.git
 cd radio-scheduler-server
