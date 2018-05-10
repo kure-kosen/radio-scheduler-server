@@ -1,0 +1,4 @@
+Flask==1.0
+peewee==3.3.1
+flask-cors==3.0.4
+python-dateutil==2.7.2
